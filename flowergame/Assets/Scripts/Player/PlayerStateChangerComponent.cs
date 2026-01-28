@@ -4,6 +4,7 @@ public class PlayerStateChangerComponent : MonoBehaviour
 {
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private PlayerAnimator _playerAnimator;
+    [SerializeField] private InteractController _interactController;
 
     private bool backAnim;
     
@@ -36,7 +37,6 @@ public class PlayerStateChangerComponent : MonoBehaviour
             if(backAnim) _playerAnimator.ChangeState(PlayerStates.backidle);
             else _playerAnimator.ChangeState(PlayerStates.idle);
         }
-        
         _playerAnimator.Flip(_playerController._rb);
     }
 }

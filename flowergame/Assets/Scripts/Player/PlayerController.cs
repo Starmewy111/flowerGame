@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+
+        if (_rb == null)
+            throw new Exception($"Rigid body does not exist! {gameObject.name}");
     }
     
 
@@ -18,6 +22,5 @@ public class PlayerController : MonoBehaviour
     { 
         Vector2 dir = ctx.ReadValue<Vector2>();
         _rb.linearVelocity = dir * _movementSpeed;
-            
     }
 }
