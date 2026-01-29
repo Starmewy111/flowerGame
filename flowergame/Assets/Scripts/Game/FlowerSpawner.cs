@@ -7,7 +7,9 @@ using Random = UnityEngine.Random;
 public class FlowerSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _spawningObjects = new List<GameObject>();
-    [SerializeField] private int poolAmount;
+    [SerializeField] private int _poolAmount;
+
+    private Vector2 _currentNewPos;
 
     [SerializeField] public float spawnTimer;
 
@@ -25,7 +27,7 @@ public class FlowerSpawner : MonoBehaviour
         _camera = Camera.main;
         currentPos = _camera.transform.position;
         
-        for (int i = 0; i < poolAmount; i++)
+        for (int i = 0; i < _poolAmount; i++)
         {
             int obj =  Random.Range(0, _spawningObjects.Count);
             
@@ -47,10 +49,10 @@ public class FlowerSpawner : MonoBehaviour
         float newPosx = Random.Range(-_spawnArea.x, _spawnArea.x);
         float newPosy = Random.Range(-_spawnArea.y, _spawnArea.y);
         
-        Vector2 newPos = new Vector2(newPosx, newPosy);
-        obj.transform.position = newPos;
+        _currentNewPos = new Vector2(newPosx, newPosy);
+        obj.transform.position = _currentNewPos;
         
-        GameObject newObj = Instantiate(obj.gameObject, obj.transform.position, Quaternion.identity);
+        GameObject newObj = Instantiate(obj.gameObject, obj.transform.position, Quaternion.identity, transform);
 
         if (randomFlip)
         {
@@ -74,16 +76,20 @@ public class FlowerSpawner : MonoBehaviour
 
         return newObj;
     }
-
+    
     private IEnumerator RevealGameObject()
     {
-        foreach (GameObject obj in _spawnedObjects)
+        while (true)
         {
-            obj.gameObject.SetActive(true);
-            yield return new WaitForSeconds(spawnTimer);
+            foreach (GameObject obj in _spawnedObjects)
+            {
+                if(obj.activeSelf) yield return new WaitForEndOfFrame();
+                
+                obj.gameObject.SetActive(true);
+                yield return new WaitForSeconds(spawnTimer);
+            }
         }
     }
-    
     
     private void OnDrawGizmos()
     {

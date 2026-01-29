@@ -20,15 +20,20 @@ public class PlayerStateChangerComponent : MonoBehaviour, IAnimation
     
     void Update()
     {
+        Rigidbody2D rb = _playerController._rb;
+        
+        if(rb.linearVelocity.y > 0) _playerAnimator._sprite.flipX = rb.linearVelocity.x > 0 ? true : rb.linearVelocity.x < 0 ? false : _playerAnimator._sprite.flipX;
+        else _playerAnimator._sprite.flipX = rb.linearVelocity.x < 0 ? true : rb.linearVelocity.x > 0 ? false : _playerAnimator._sprite.flipX;
+        
         if (_playerController.isInteracting)
         {
             if(backAnim) _playerAnimator.ChangeState(PlayerStates.backgiving);
             else _playerAnimator.ChangeState(PlayerStates.giving);
             return;
         }
-        if (_playerController._rb.linearVelocity.magnitude > 0.1f)
+        if (rb.linearVelocity.magnitude > 0.1f)
         {
-            if (_playerController._rb.linearVelocity.y > 0.1f)
+            if (rb.linearVelocity.y > 0.1f)
             {
                 _playerAnimator.ChangeState(PlayerStates.backwalking);
                 backAnim = true;
@@ -44,7 +49,6 @@ public class PlayerStateChangerComponent : MonoBehaviour, IAnimation
             if(backAnim) _playerAnimator.ChangeState(PlayerStates.backidle);
             else _playerAnimator.ChangeState(PlayerStates.idle);
         }
-        _playerAnimator.Flip(_playerController._rb);
     }
 
     public void ResetAnimation()

@@ -29,7 +29,7 @@ public class PlayerAnimator : MonoBehaviour
     
     private Animator _animator;
     public PlayerStates _currentState;
-    private SpriteRenderer _sprite;
+    public SpriteRenderer _sprite;
 
     private void Start()
     {
@@ -75,11 +75,6 @@ public class PlayerAnimator : MonoBehaviour
     public void ResetAnimation()
     {
         FindAnyObjectByType<PlayerStateChangerComponent>().GetComponent<IAnimation>().ResetAnimation();
-    }
-
-    public void Flip(Rigidbody2D rb)
-    {
-        _sprite.flipX = rb.linearVelocity.x < 0 ? true : rb.linearVelocity.x > 0 ? false : _sprite.flipX;
     }
 
     private string GetAnimationName(PlayerStates state)

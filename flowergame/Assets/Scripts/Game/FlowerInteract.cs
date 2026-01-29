@@ -10,7 +10,7 @@ namespace Game
 
         public UnityAction Interact()
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             
             return null;
         }
