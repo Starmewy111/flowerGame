@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Interfaces;
 using UnityEngine;
 
 [System.Serializable]
@@ -60,7 +61,20 @@ public class PlayerAnimator : MonoBehaviour
             case PlayerStates.backwalking: 
                 _animator.CrossFade(currentAnimName, 0.0f, 0);
                 break;
+            
+            case PlayerStates.giving:
+                _animator.CrossFade(currentAnimName, 0.0f, 0);
+                break;
+            
+            case PlayerStates.backgiving:
+                _animator.CrossFade(currentAnimName, 0.0f, 0);
+                break;
         }
+    }
+
+    public void ResetAnimation()
+    {
+        FindAnyObjectByType<PlayerStateChangerComponent>().GetComponent<IAnimation>().ResetAnimation();
     }
 
     public void Flip(Rigidbody2D rb)

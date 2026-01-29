@@ -59440,7 +59440,7 @@ MonoBehaviour:
   - {fileID: 843725143106110035, guid: 1aca7b6b75bb5c240a345c04a231ebb1, type: 3}
   - {fileID: 1454255473695774693, guid: 0682514fcd2f0e145ae976eeaa46f5bf, type: 3}
   poolAmount: 100
-  spawnTimer: 1
+  spawnTimer: 3
   randomFlip: 1
   randomAnimationSpeed: 1
   _spawnArea: {x: -9, y: -5}
@@ -60470,9 +60470,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1923768306}
-  - component: {fileID: 1923768309}
-  - component: {fileID: 1923768308}
   - component: {fileID: 1923768307}
+  - component: {fileID: 1923768310}
+  - component: {fileID: 1923768312}
+  - component: {fileID: 1923768311}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -60525,7 +60526,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1923768308}
+      - m_Target: {fileID: 1923768311}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: Movement
         m_Mode: 0
@@ -60556,7 +60557,19 @@ MonoBehaviour:
     m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1923768310}
+        m_TargetAssemblyTypeName: InteractController, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
@@ -60611,12 +60624,44 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1923768308
+--- !u!114 &1923768310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923768305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3edfae981ce20479b9ce36dc9d0b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 1978835865}
+  _interactableLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  _interactArea: {x: 1, y: 1}
+  _onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1923768311}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: IsInteracting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1923768311
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60629,8 +60674,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementSpeed: 5
+  _interactingSpeed: 0
+  isInteracting: 0
   _rb: {fileID: 0}
---- !u!50 &1923768309
+--- !u!50 &1923768312
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -60789,6 +60836,10 @@ MonoBehaviour:
     _animationName: p_backwalk
   - _playerState: 1
     _animationName: p_backidle
+  - _playerState: 7
+    _animationName: p_backgiving
+  - _playerState: 6
+    _animationName: p_giving
   _currentState: 0
 --- !u!1 &2018220613
 GameObject:
@@ -60834,7 +60885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 100be4b9631064b5ebf37bae4b936b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerController: {fileID: 1923768308}
+  _playerController: {fileID: 1923768311}
   _playerAnimator: {fileID: 1978835868}
   _interactController: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

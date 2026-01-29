@@ -1,6 +1,7 @@
+using Interfaces;
 using UnityEngine;
 
-public class PlayerStateChangerComponent : MonoBehaviour
+public class PlayerStateChangerComponent : MonoBehaviour, IAnimation
 {
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private PlayerAnimator _playerAnimator;
@@ -19,6 +20,12 @@ public class PlayerStateChangerComponent : MonoBehaviour
     
     void Update()
     {
+        if (_playerController.isInteracting)
+        {
+            if(backAnim) _playerAnimator.ChangeState(PlayerStates.backgiving);
+            else _playerAnimator.ChangeState(PlayerStates.giving);
+            return;
+        }
         if (_playerController._rb.linearVelocity.magnitude > 0.1f)
         {
             if (_playerController._rb.linearVelocity.y > 0.1f)
@@ -38,5 +45,10 @@ public class PlayerStateChangerComponent : MonoBehaviour
             else _playerAnimator.ChangeState(PlayerStates.idle);
         }
         _playerAnimator.Flip(_playerController._rb);
+    }
+
+    public void ResetAnimation()
+    {
+        _playerController.IsInteracting();
     }
 }

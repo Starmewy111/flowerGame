@@ -1,4 +1,5 @@
 using System;
+using Library;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
+    [SerializeField] private float _interactingSpeed;
+    public float currentSpeed{get; private set;}
+    public Vector2 dir {get; private set;}
+    
+    public bool isInteracting;
     
     public Rigidbody2D _rb;
 
@@ -19,8 +25,22 @@ public class PlayerController : MonoBehaviour
     
 
     public void Movement(InputAction.CallbackContext ctx)
-    { 
-        Vector2 dir = ctx.ReadValue<Vector2>();
-        _rb.linearVelocity = dir * _movementSpeed;
+    {
+        if (ctx.performed)
+        {
+            dir = ctx.ReadValue<Vector2>();
+        }
+        else
+        {
+            dir = Vector2.zero;
+        }
     }
+
+    private void FixedUpdate()
+    {
+        currentSpeed = isInteracting ? _interactingSpeed : _movementSpeed;
+        _rb.linearVelocity = dir * currentSpeed;
+    }
+    
+    public void IsInteracting() => isInteracting = helpers.FlipFlop(isInteracting);
 }
